@@ -1,6 +1,12 @@
+import sys
 import argparse
 import pandas as pd
+
 from PySide6.QtCore import QDateTime, QTimeZone
+from PySide6.QtWidgets import QApplication
+from main_window import MainWindow
+#from main_widget import Widget
+from test import Widget
 
 
 def transform_date(utc, timezone=None):
@@ -12,11 +18,19 @@ def transform_date(utc, timezone=None):
 
 
 def read_data(fname):
+    # Read the CSV content
     df = pd.read_csv(fname)
-    df.drop(df[df.mag < 0].index)
+
+    # Remove wrong magnitudes
+    df = df.drop(df[df.mag < 0].index)
     magnitudes = df["mag"]
+
+    # My local timezone
     timezone = QTimeZone(b"Europe/Berlin")
+
+    # Get timestamp transformed to our timezone
     times = df["time"].apply(lambda x: transform_date(x, timezone))
+
     return times, magnitudes
 
 
@@ -25,4 +39,12 @@ if __name__ == "__main__":
     options.add_argument("-f", "--file", type=str, required=True)
     args = options.parse_args()
     data = read_data(args.file)
-    print(data)
+
+    # Qt Application
+    app = QApplication(sys.argv)
+
+    widget = Widget(data)
+    window = MainWindow(widget)
+    window.show()
+
+    sys.exit(app.exec())
