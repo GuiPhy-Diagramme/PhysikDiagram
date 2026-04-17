@@ -1,3 +1,12 @@
+import time
+
+from PySide6.QtCore import QLocale, QPoint, QRect, QSize, Qt
+starttime = time.time()
+def log(message = None):
+    global starttime
+    curtime = time.time() - starttime
+    print(f"[{curtime}] {message}")
+
 import sys
 import argparse
 import pandas as pd
