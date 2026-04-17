@@ -13,15 +13,16 @@ import pandas as pd
 import pyqtgraph as pg
 import time
 from dateutil import parser
-from PySide6.QtGui import QIcon, QKeySequence
-from PySide6.QtWidgets import QMainWindow, QApplication
+from PySide6.QtGui import QCursor, QFont, QIcon, QKeySequence, QPalette, QRegion
+from PySide6 import QtWidgets
 
 
-class MainWindow(QMainWindow):
-    def __init__(self, widget):
+class MainWindow(QtWidgets.QMainWindow):
+    def __init__(self, widget = None):
         super().__init__()
         self.setWindowTitle("Eartquakes information")
-        self.setCentralWidget(widget)
+        if widget:
+            self.setCentralWidget(widget)
         # Menu
         self.menu = self.menuBar()
         file_menu = self.menu.addMenu("File")
@@ -74,15 +75,30 @@ def read_data(fname):
     return epochs, list(magnitudes)
 
 
+class MainWidget(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+        btn = QtWidgets.QPushButton('press me')
+        text = QtWidgets.QLineEdit('enter text')
+        listWidget = QtWidgets.QListWidget()
+        plot = Diagramm(*data)
+        layout = QtWidgets.QGridLayout()
+        self.setLayout(layout)
+        layout.addWidget(btn, 0, 0)  # button goes in upper-left
+        layout.addWidget(text, 1, 0)  # text edit goes in middle-left
+        layout.addWidget(listWidget, 2, 0)  # list widget goes in bottom-left
+        layout.addWidget(plot, 0, 1, 3, 1)  # plot goes on right side, spanning
+
+
+
 if __name__ == "__main__":
     options = argparse.ArgumentParser()
-    options.add_argument("-f", "--file", type=str, required=True)
+    options.add_argument("-f", "--file", type=str, required=False)
     args = options.parse_args()
-    data = read_data(args.file)
-    print(data)
-    app = QApplication()
-    window = MainWindow(Diagramm(*data))
+    if not (fname := args.file):
+        fname = "Code/QT/datavis/all_day.csv"
+    data = read_data(fname)
+    app = QtWidgets.QApplication([])
+    window = MainWindow(MainWidget())
     window.show()
     app.exec()
-    
-    
