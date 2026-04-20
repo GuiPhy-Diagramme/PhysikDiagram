@@ -1,21 +1,12 @@
-import time
-
-from PySide6.QtCore import QLocale, QPoint, QRect, QSize, Qt
-starttime = time.time()
-def log(message = None):
-    global starttime
-    curtime = time.time() - starttime
-    print(f"[{curtime}] {message}")
-
 import sys
 import argparse
-import pandas as pd
+#import pandas as pd
 import pyqtgraph as pg
 import time
 from dateutil import parser
 from PySide6.QtGui import QCursor, QFont, QIcon, QKeySequence, QPalette, QRegion
 from PySide6 import QtWidgets
-
+from PySide6.QtCore import Qt
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, widget = None):
@@ -55,7 +46,6 @@ class Diagramm(pg.PlotWidget):
             self.setWindowTitle(windowTitle)
             if len(args) > 0 or len(dataArgs) > 0:
                 self.plot(*args, **dataArgs)
-            #self.show()
 
 
 def read_data(fname):
@@ -78,17 +68,21 @@ def read_data(fname):
 class MainWidget(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
-        btn = QtWidgets.QPushButton('press me')
-        text = QtWidgets.QLineEdit('enter text')
+        btn = QtWidgets.QPushButton('Werte hinzufügen')
+        text_x = QtWidgets.QLineEdit(placeholderText='X Wert')
+        text_y = QtWidgets.QLineEdit(placeholderText="Y Wert")
         listWidget = QtWidgets.QListWidget()
-        plot = Diagramm(*data)
+        plot = Diagramm()
         layout = QtWidgets.QGridLayout()
         self.setLayout(layout)
-        layout.addWidget(btn, 0, 0)  # button goes in upper-left
-        layout.addWidget(text, 1, 0)  # text edit goes in middle-left
-        layout.addWidget(listWidget, 2, 0)  # list widget goes in bottom-left
-        layout.addWidget(plot, 0, 1, 3, 1)  # plot goes on right side, spanning
-
+        layout.addWidget(text_x, 0, 0)
+        layout.addWidget(text_y, 0, 1)
+        layout.addWidget(btn, 1, 0, 1, 2)
+        layout.addWidget(listWidget, 2, 0, 1, 2)  # list widget goes in bottom-left
+        layout.addWidget(plot, 0, 2, -1, -1)  # plot goes on right side, spanning
+        layout.setColumnStretch(0, 1)
+        layout.setColumnStretch(1, 1)
+        layout.setColumnStretch(2, 5)
 
 
 if __name__ == "__main__":
@@ -97,7 +91,7 @@ if __name__ == "__main__":
     args = options.parse_args()
     if not (fname := args.file):
         fname = "Code/QT/datavis/all_day.csv"
-    data = read_data(fname)
+    #data = read_data(fname)
     app = QtWidgets.QApplication([])
     window = MainWindow(MainWidget())
     window.show()
