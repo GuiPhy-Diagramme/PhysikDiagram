@@ -46,6 +46,27 @@ class Diagramm(pg.PlotWidget):
             self.setWindowTitle(windowTitle)
             if len(args) > 0 or len(dataArgs) > 0:
                 self.plot(*args, **dataArgs)
+    
+    def setList(self, x, y):
+        self.clear()
+        self.plot(x, y)
+
+
+class GraphItemList(QtWidgets.QWidget):
+    def __init__(self, *args, **kargs):
+        super().__init__(*args, *kargs)
+        self.x_list = QtWidgets.QListWidget()
+        self.y_list = QtWidgets.QListWidget()
+        layout = QtWidgets.QHBoxLayout()
+        layout.addWidget(self.x_list)
+        layout.addWidget(self.y_list)
+        self.setLayout(layout)
+    
+    def setList(self, x, y):
+        for list_widget, elements in ((self.x_list, x), (self.y_list, y)):
+            list_widget.clear()
+            for item in elements:
+                list_widget.addItem(str(item))
 
 
 def read_data(fname):
@@ -71,19 +92,22 @@ class MainWidget(QtWidgets.QWidget):
         btn = QtWidgets.QPushButton('Werte hinzufügen')
         text_x = QtWidgets.QLineEdit(placeholderText='X Wert')
         text_y = QtWidgets.QLineEdit(placeholderText="Y Wert")
-        listWidget = QtWidgets.QListWidget()
-        plot = Diagramm()
+        self.listWidget = GraphItemList()
+        self.plot = Diagramm()
         layout = QtWidgets.QGridLayout()
         self.setLayout(layout)
         layout.addWidget(text_x, 0, 0)
         layout.addWidget(text_y, 0, 1)
         layout.addWidget(btn, 1, 0, 1, 2)
-        layout.addWidget(listWidget, 2, 0, 1, 2)  # list widget goes in bottom-left
-        layout.addWidget(plot, 0, 2, -1, -1)  # plot goes on right side, spanning
+        layout.addWidget(self.listWidget, 2, 0, 1, 2)  # list widget goes in bottom-left
+        layout.addWidget(self.plot, 0, 2, -1, -1)  # plot goes on right side, spanning
         layout.setColumnStretch(0, 1)
         layout.setColumnStretch(1, 1)
         layout.setColumnStretch(2, 5)
 
+    def update_list(self, x, y):
+        self.plot.setList(x, y)
+        self.listWidget.setList(x, y)
 
 if __name__ == "__main__":
     options = argparse.ArgumentParser()
@@ -93,6 +117,10 @@ if __name__ == "__main__":
         fname = "Code/QT/datavis/all_day.csv"
     #data = read_data(fname)
     app = QtWidgets.QApplication([])
-    window = MainWindow(MainWidget())
+    widget = MainWidget()
+    window = MainWindow(widget)
     window.show()
+    widget.update_list([1,2,3], [2,2,2])
+    widget.update_list([1,2,3], [2,3,4])
     app.exec()
+
