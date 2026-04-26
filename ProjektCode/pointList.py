@@ -1,16 +1,46 @@
-from PySide6.QtWidgets import QPushButton, QLineEdit, QWidget, QListWidget, QGridLayout, QListWidgetItem
+from PySide6.QtWidgets import QPushButton, QLineEdit, QWidget, QListWidget, QGridLayout, QVBoxLayout, QMenu, QDialog
 from PySide6.QtCore import Slot, Qt
 from PySide6.QtGui import QMouseEvent
+from time import sleep
+
+
+class Form(QDialog):
+
+    def __init__(self, value="", parent=None):
+        super(Form, self).__init__(parent)
+        self.edit = QLineEdit(value)
+        self.button = QPushButton("OK")
+        layout = QVBoxLayout()
+        layout.addWidget(self.edit)
+        layout.addWidget(self.button)
+        self.setLayout(layout)
+        self.button.clicked.connect(self.close)
+
+
+@Slot()
+def edit_dialog(value):
+    form = Form(value)
+    form.exec()
+    return form.edit.text()
 
 
 class ValList(QListWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     
+    def contextMenuEvent(self, event):
+        context_menu = QMenu(self)
+        context_menu.addAction("test")
+        if (items := self.selectedItems()):
+            edit_action = context_menu.addAction("Bearbeiten")
+            edit_action.triggered.connect(lambda: items[0].setText(edit_dialog(items[0].text())))
+        context_menu.exec(event.globalPos())
+    
     def mousePressEvent(self, event: QMouseEvent):
-        print(event)
-        print()
-
+        super().mousePressEvent(event)
+        if event.button() != Qt.MouseButton.RightButton:
+            return
+        
 
 
 class PointList(QWidget):
@@ -20,7 +50,7 @@ class PointList(QWidget):
         self.__btn = QPushButton('Werte hinzufügen')
         self.__btn.clicked.connect(self.__onButtonClick)
         self.__textX = QLineEdit(placeholderText='X Wert')
-        self.__textY = QLineEdit(placeholderText="Y Wert")
+        self.__textY = QLineEdit(placeholderText='Y Wert')
         self.__listX = ValList()
         self.__listY = ValList()
         layout = QGridLayout()
