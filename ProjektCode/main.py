@@ -1,0 +1,43 @@
+from PySide6 import QtWidgets
+from mainWidget import MainWidget
+from mainWindow import MainWindow
+from collections import OrderedDict
+
+
+class Controller:
+    def __init__(self):
+        self._app = QtWidgets.QApplication([])
+        self._widget = MainWidget(self.comRecieve)
+        self._window = MainWindow(self._widget)
+        self._window.show()
+        self.__list = OrderedDict()
+    
+    def exec(self):
+        self._app.exec()
+    
+    def comRecieve(self, action, *args):
+        if action == 0: # 0: Add Item
+            self.addToList(args[0], args[1])
+
+    def updateList(self):
+        self._widget.updateList(list(self.__list.keys()), list(self.__list.values()))
+
+    def setList(self, x, y = None):
+        if y is not None:
+            x = zip(x, y)
+        self.__list = OrderedDict(sorted(dict(x).items()))
+        self.updateList()
+    
+    def addToList(self, x, y):
+        self.__list[x] = y
+        self.__list = OrderedDict(sorted(self.__list.items()))
+        self.updateList()
+    
+    def removeFromList(self, x):
+        self.__list.pop(x)
+        self.updateList()
+
+
+if __name__ == "__main__":
+    controller = Controller()
+    controller.exec()
