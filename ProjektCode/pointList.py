@@ -27,6 +27,7 @@ def edit_dialog(value):
 class ValList(QListWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.other_list: ValList = None
     
     def contextMenuEvent(self, event):
         context_menu = QMenu(self)
@@ -38,9 +39,7 @@ class ValList(QListWidget):
     
     def mousePressEvent(self, event: QMouseEvent):
         super().mousePressEvent(event)
-        if event.button() != Qt.MouseButton.RightButton:
-            return
-        
+        self.other_list.clearSelection()
 
 
 class PointList(QWidget):
@@ -53,6 +52,8 @@ class PointList(QWidget):
         self.__textY = QLineEdit(placeholderText='Y Wert')
         self.__listX = ValList()
         self.__listY = ValList()
+        self.__listX.other_list = self.__listY
+        self.__listY.other_list = self.__listX
         layout = QGridLayout()
         self.setLayout(layout)
         layout.addWidget(self.__textX,   0, 0, 1, 1)
