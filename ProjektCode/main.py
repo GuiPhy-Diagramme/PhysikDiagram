@@ -17,7 +17,18 @@ class Controller:
     
     def comRecieve(self, action, *args):
         if action == 0: # 0: Add Item
-            self.addToList(args[0], args[1])
+            print("Add Item", args)
+            return self.addToList(args[0], args[1])
+        if action == 1: # 1: Remove Item
+            print("Remove Item", args)
+            x = list(self.__list.keys())[args[0]]
+            return self.removeFromList(x)
+        if action == 2: # 2: Edit Item
+            print("Edit Item", args)
+            x = list(self.__list.keys())[args[0]]
+            self.removeFromList(x)
+            new_item = x, args[1]
+            return self.addToList(*new_item)
 
     def updateList(self):
         self._widget.updateList(list(self.__list.keys()), list(self.__list.values()))
