@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QPushButton, QLineEdit, QWidget, QListWidget, QGridLayout, QVBoxLayout, QMenu, QDialog
 from PySide6.QtCore import Slot, Qt
 from PySide6.QtGui import QMouseEvent, QKeyEvent
-from PySide6.QtGui import QMouseEvent
+from functools import partial
 from time import sleep
 
 
