@@ -25,8 +25,7 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(1, self._setSize)
 
     def _setSize(self):
-        geometry = self.screen().availableGeometry()
-        self.setBaseSize(geometry.width() * 0.8, geometry.height() * 0.7)
+        self.resize(self.sizeHint())
 
     def info(self):
         print(self.screen().orientation())
