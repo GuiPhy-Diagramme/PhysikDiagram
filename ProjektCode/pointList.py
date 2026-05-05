@@ -26,9 +26,10 @@ def edit_dialog(value):
 
 
 class ValList(QListWidget):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, comSend, *args, **kwargs):
+        super().__init__( *args, **kwargs)
         self.other_list: ValList = None
+        self._comSend = comSend
     
     def contextMenuEvent(self, event):
         context_menu = QMenu(self)
@@ -64,10 +65,12 @@ class PointList(QWidget):
         self._comSend = comFunc
         self.__btn = QPushButton('Werte hinzufügen')
         self.__btn.clicked.connect(self.__onButtonClick)
-        self.__textX = QLineEdit(placeholderText='X Wert')
-        self.__textY = QLineEdit(placeholderText='Y Wert')
-        self.__listX = ValList()
-        self.__listY = ValList()
+        self.__textX = LineInput(placeholderText='X Wert')
+        self.__textY = LineInput(placeholderText='Y Wert')
+        self.__textX.on_enter = self.__onButtonClick
+        self.__textY.on_enter = self.__onButtonClick
+        self.__listX = ValList(comFunc)
+        self.__listY = ValList(comFunc)
         self.__listX.other_list = self.__listY
         self.__listY.other_list = self.__listX
         layout = QGridLayout()
