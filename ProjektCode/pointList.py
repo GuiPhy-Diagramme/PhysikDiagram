@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QPushButton, QLineEdit, QWidget, QListWidget, QGridLayout, QVBoxLayout, QMenu, QDialog
 from PySide6.QtCore import Slot, Qt
+from PySide6.QtGui import QMouseEvent, QKeyEvent
 from PySide6.QtGui import QMouseEvent
 from time import sleep
 
@@ -40,6 +41,19 @@ class ValList(QListWidget):
     def mousePressEvent(self, event: QMouseEvent):
         super().mousePressEvent(event)
         self.other_list.clearSelection()
+
+
+class LineInput(QLineEdit):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.on_enter = None
+    
+    def keyPressEvent(self, arg__1: QKeyEvent):
+        if arg__1.key() != Qt.Key.Key_Return:
+            return super().keyPressEvent(arg__1)
+        if self.on_enter == None:
+            return
+        self.on_enter()
 
 
 class PointList(QWidget):
