@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
 
     def _setSize(self):
         geometry = self.screen().availableGeometry()
-        self.setFixedSize(geometry.width() * 0.8, geometry.height() * 0.7)
+        self.setBaseSize(geometry.width() * 0.8, geometry.height() * 0.7)
 
     def info(self):
         print(self.screen().orientation())
