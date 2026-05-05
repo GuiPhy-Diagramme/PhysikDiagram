@@ -33,10 +33,11 @@ class ValList(QListWidget):
     
     def contextMenuEvent(self, event):
         context_menu = QMenu(self)
-        context_menu.addAction("test")
         if (items := self.selectedItems()):
             edit_action = context_menu.addAction("Bearbeiten")
-            edit_action.triggered.connect(lambda: items[0].setText(edit_dialog(items[0].text())))
+            edit_action.triggered.connect(lambda: partial(self._comSend,    2, self.selectedIndexes()[0], edit_dialog(items[0].text())))
+            delete_action = context_menu.addAction("Löschen")
+            delete_action.triggered.connect(lambda: partial(self._comSend,  1, self.selectedIndexes()[0]))
         context_menu.exec(event.globalPos())
     
     def mousePressEvent(self, event: QMouseEvent):
