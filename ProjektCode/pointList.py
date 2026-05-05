@@ -94,7 +94,7 @@ class PointList(QWidget):
     def __onButtonClick(self):
         valX: float = self._stripVal(self.__textX.text())
         valY: float = self._stripVal(self.__textY.text())
-        if type(valX) == None or type(valY) == None:
+        if None in (valX, valY):
             return
         self._comSend(0, valX, valY)
 
