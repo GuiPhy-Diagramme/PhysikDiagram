@@ -45,8 +45,9 @@ class Controller:
         self.updateList()
     
     def removeFromList(self, x):
-        self.__list.pop(x)
+        out = x, self.__list.pop(x)
         self.updateList()
+        return out
 
 
 if __name__ == "__main__":
