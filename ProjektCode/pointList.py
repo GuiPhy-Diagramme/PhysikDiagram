@@ -39,8 +39,10 @@ class ValList(QListWidget):
         context_menu.exec(event.globalPos())
     
     def mousePressEvent(self, event: QMouseEvent):
-        super().mousePressEvent(event)
+        if self.other_list == None:
+            return super().mousePressEvent(event)
         self.other_list.clearSelection()
+        return super().mousePressEvent(event)
 
 
 class LineInput(QLineEdit):
