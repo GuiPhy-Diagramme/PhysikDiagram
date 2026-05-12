@@ -8,7 +8,7 @@ class Controller:
     def __init__(self):
         self.__app = QtWidgets.QApplication([])
         self.__widget = MainWidget(self.comRecieve)
-        self.__window = MainWindow(self.__widget)
+        self.__window = MainWindow(self.__widget, self.comRecieve)
         self.__window.show()
         self.__list = OrderedDict()
     
@@ -36,6 +36,9 @@ class Controller:
             else:
                 new_item = x, new_val
             return self.addToList(*new_item)
+        if action == 3: # Save
+            print("Save File")
+            pass
 
     def updateList(self):
         self.__widget.updateList(list(self.__list.keys()), list(self.__list.values()))
