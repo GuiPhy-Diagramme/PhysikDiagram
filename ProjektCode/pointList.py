@@ -27,18 +27,26 @@ def edit_dialog(value):
 
 
 class ValList(QListWidget):
-    def __init__(self, comSend, *args, **kwargs):
+    def __init__(self, comSend, x_or_y: bool, *args, **kwargs):
         super().__init__( *args, **kwargs)
         self.other_list: ValList = None
         self.comSend = comSend
+        self.x_or_y = x_or_y
+
+    def edit_event(self):
+        newVal = edit_dialog(self.selectedItems()[0].text())
+        self.comSend(2, self.x_or_y, self.selectedIndexes()[0].column(), newVal)
+
+    def delete_event(self):
+        self.comSend(1, self.selectedIndexes()[0].column())
     
     def contextMenuEvent(self, event):
         context_menu = QMenu(self)
-        if (items := self.selectedItems()):
+        if self.selectedItems():
             edit_action = context_menu.addAction("Bearbeiten")
-            edit_action.triggered.connect(lambda: partial(self.comSend,    2, self.selectedIndexes()[0], edit_dialog(items[0].text())))
+            edit_action.triggered.connect(self.edit_event)
             delete_action = context_menu.addAction("Löschen")
-            delete_action.triggered.connect(lambda: partial(self.comSend,  1, self.selectedIndexes()[0]))
+            delete_action.triggered.connect(self.delete_event)
         context_menu.exec(event.globalPos())
     
     def mousePressEvent(self, event: QMouseEvent):
@@ -71,8 +79,8 @@ class PointList(QWidget):
         self.__textY = LineInput(placeholderText='Y Wert')
         self.__textX.on_enter = self.__onButtonClick
         self.__textY.on_enter = self.__onButtonClick
-        self.__listX = ValList(comFunc)
-        self.__listY = ValList(comFunc)
+        self.__listX = ValList(comFunc, True)
+        self.__listY = ValList(comFunc, False)
         self.__listX.other_list = self.__listY
         self.__listY.other_list = self.__listX
         layout = QGridLayout()

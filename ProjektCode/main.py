@@ -25,9 +25,16 @@ class Controller:
             return self.removeFromList(x)
         if action == 2: # 2: Edit Item
             print("Edit Item", args)
-            x = list(self.__list.keys())[args[0]]
-            self.removeFromList(x)
-            new_item = x, args[1]
+            x = list(self.__list.keys())[args[1]]
+            old = self.removeFromList(x)
+            try:
+                new_val = float(args[2])
+            except ValueError:
+                return
+            if args[0]:
+                new_item = new_val, old[1]
+            else:
+                new_item = x, new_val
             return self.addToList(*new_item)
 
     def updateList(self):
