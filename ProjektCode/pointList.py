@@ -29,15 +29,15 @@ class ValList(QListWidget):
     def __init__(self, comSend, *args, **kwargs):
         super().__init__( *args, **kwargs)
         self.other_list: ValList = None
-        self._comSend = comSend
+        self.comSend = comSend
     
     def contextMenuEvent(self, event):
         context_menu = QMenu(self)
         if (items := self.selectedItems()):
             edit_action = context_menu.addAction("Bearbeiten")
-            edit_action.triggered.connect(lambda: partial(self._comSend,    2, self.selectedIndexes()[0], edit_dialog(items[0].text())))
+            edit_action.triggered.connect(lambda: partial(self.comSend,    2, self.selectedIndexes()[0], edit_dialog(items[0].text())))
             delete_action = context_menu.addAction("Löschen")
-            delete_action.triggered.connect(lambda: partial(self._comSend,  1, self.selectedIndexes()[0]))
+            delete_action.triggered.connect(lambda: partial(self.comSend,  1, self.selectedIndexes()[0]))
         context_menu.exec(event.globalPos())
     
     def mousePressEvent(self, event: QMouseEvent):
