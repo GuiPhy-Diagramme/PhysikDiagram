@@ -6,14 +6,14 @@ from collections import OrderedDict
 
 class Controller:
     def __init__(self):
-        self._app = QtWidgets.QApplication([])
-        self._widget = MainWidget(self.comRecieve)
-        self._window = MainWindow(self._widget)
-        self._window.show()
+        self.__app = QtWidgets.QApplication([])
+        self.__widget = MainWidget(self.comRecieve)
+        self.__window = MainWindow(self.__widget)
+        self.__window.show()
         self.__list = OrderedDict()
     
     def exec(self):
-        self._app.exec()
+        self.__app.exec()
     
     def comRecieve(self, action, *args):
         if action == 0: # 0: Add Item
@@ -38,7 +38,7 @@ class Controller:
             return self.addToList(*new_item)
 
     def updateList(self):
-        self._widget.updateList(list(self.__list.keys()), list(self.__list.values()))
+        self.__widget.updateList(list(self.__list.keys()), list(self.__list.values()))
 
     def setList(self, x, y = None):
         if y is not None:

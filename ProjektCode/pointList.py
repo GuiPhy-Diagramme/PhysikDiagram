@@ -29,13 +29,13 @@ def edit_dialog(value):
 class ValList(QListWidget):
     def __init__(self, comSend, x_or_y: bool, *args, **kwargs):
         super().__init__( *args, **kwargs)
-        self.other_list: ValList = None
+        self.__other_list: ValList = None
         self.comSend = comSend
-        self.x_or_y = x_or_y
+        self.__x_or_y = x_or_y
 
     def edit_event(self):
         newVal = edit_dialog(self.selectedItems()[0].text())
-        self.comSend(2, self.x_or_y, self.selectedIndexes()[0].column(), newVal)
+        self.comSend(2, self.__x_or_y, self.selectedIndexes()[0].column(), newVal)
 
     def delete_event(self):
         self.comSend(1, self.selectedIndexes()[0].column())
@@ -50,9 +50,9 @@ class ValList(QListWidget):
         context_menu.exec(event.globalPos())
     
     def mousePressEvent(self, event: QMouseEvent):
-        if self.other_list == None:
+        if self.__other_list == None:
             return super().mousePressEvent(event)
-        self.other_list.clearSelection()
+        self.__other_list.clearSelection()
         return super().mousePressEvent(event)
 
 
@@ -72,7 +72,7 @@ class LineInput(QLineEdit):
 class PointList(QWidget):
     def __init__(self, comFunc, *args, **kargs):
         super().__init__(*args, *kargs)
-        self._comSend = comFunc
+        self.comSend = comFunc
         self.__btn = QPushButton('Werte hinzufügen')
         self.__btn.clicked.connect(self.__onButtonClick)
         self.__textX = LineInput(placeholderText='X Wert')
@@ -81,8 +81,8 @@ class PointList(QWidget):
         self.__textY.on_enter = self.__onButtonClick
         self.__listX = ValList(comFunc, True)
         self.__listY = ValList(comFunc, False)
-        self.__listX.other_list = self.__listY
-        self.__listY.other_list = self.__listX
+        self.__listX.__other_list = self.__listY
+        self.__listY.__other_list = self.__listX
         layout = QGridLayout()
         self.setLayout(layout)
         layout.addWidget(self.__textX,   0, 0, 1, 1)
@@ -105,7 +105,7 @@ class PointList(QWidget):
         valY: float = self._stripVal(self.__textY.text())
         if None in (valX, valY):
             return
-        self._comSend(0, valX, valY)
+        self.comSend(0, valX, valY)
 
     def setList(self, x, y):
         for list_widget, elements in ((self.__listX, x), (self.__listY, y)):

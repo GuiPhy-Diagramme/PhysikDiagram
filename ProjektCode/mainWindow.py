@@ -10,8 +10,8 @@ class MainWindow(QMainWindow):
         if widget:
             self.setCentralWidget(widget)
         # Menu
-        self._menu = self.menuBar()
-        file_menu = self._menu.addMenu("File")
+        self.__menu = self.menuBar()
+        file_menu = self.__menu.addMenu("File")
 
         # Exit QAction
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.ApplicationExit),
@@ -20,11 +20,11 @@ class MainWindow(QMainWindow):
                             "Info", QKeySequence.StandardKey.Print, self.info)
 
         # Status Bar
-        self._status = self.statusBar()
-        self._status.showMessage("App Running")
-        QTimer.singleShot(1, self._setSize)
+        self.__status = self.statusBar()
+        self.__status.showMessage("App Running")
+        QTimer.singleShot(1, self.__setSize)
 
-    def _setSize(self):
+    def __setSize(self):
         self.resize(self.sizeHint())
 
     def info(self):

@@ -6,16 +6,16 @@ from pointList import PointList
 class MainWidget(QWidget):
     def __init__(self, comFunc):
         super().__init__()
-        self._listWidget = PointList(comFunc)
+        self.__listWidget = PointList(comFunc)
         background = self.palette().color(self.backgroundRole())
-        self._plot = Diagram(background)
+        self.__plot = Diagram(background)
         layout = QGridLayout()
         self.setLayout(layout)
-        layout.addWidget(self._listWidget, 0, 0)  # list widget goes in bottom-left
-        layout.addWidget(self._plot, 0, 1)  # plot goes on right side, spanning
+        layout.addWidget(self.__listWidget, 0, 0)
+        layout.addWidget(self.__plot, 0, 1)
         layout.setColumnStretch(0, 1)
         layout.setColumnStretch(1, 3)
 
     def updateList(self, x, y):
-        self._plot.setList(x, y)
-        self._listWidget.setList(x, y)
+        self.__plot.setList(x, y)
+        self.__listWidget.setList(x, y)
