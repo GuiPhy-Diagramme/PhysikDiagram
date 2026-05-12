@@ -21,6 +21,7 @@ class Form(QDialog):
 @Slot()
 def edit_dialog(value):
     form = Form(value)
+    form.setFixedSize(form.sizeHint())
     form.exec()
     return form.edit.text()
 
