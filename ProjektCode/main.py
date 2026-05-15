@@ -18,10 +18,8 @@ class Controller:
     
     def comRecieve(self, action, *args):
         if action == 0: # 0: Add Item
-            print("Add Item", args)
             return self.addToList(args[0], args[1])
         if action == 1: # 1: Remove Item
-            print("Remove Item", args)
             x = list(self.__list.keys())[args[0]]
             return self.removeFromList(x)
         if action == 2: # 2: Edit Item
@@ -39,8 +37,13 @@ class Controller:
             self.removeFromList(x)
             return self.addToList(*new_vals)
         if action == 3: # Save
-            print("Save File")
-            pass
+            if args[0] or self.save_file == None:
+                return self.save_as()
+            else:
+                return self.save()
+    
+    def save_as():
+        dialog
 
     def updateList(self):
         self.__widget.updateList(list(self.__list.keys()), list(self.__list.values()))
