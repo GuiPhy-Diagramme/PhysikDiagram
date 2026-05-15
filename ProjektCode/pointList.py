@@ -4,6 +4,28 @@ from PySide6.QtGui import QMouseEvent, QKeyEvent
 from functools import partial
 from time import sleep
 
+
+class ValList(QListWidget):
+    def __init__(self, comSend, x_or_y: bool, *args, **kwargs):
+        super().__init__( *args, **kwargs)
+        self.__other_list: ValList = None
+        self.comSend = comSend
+        self.__x_or_y = x_or_y
+
+    @Slot()
+    def edit_event(self):
+        self.comSend(2, self.selectedIndexes()[0].column())
+
+    @Slot()
+    def delete_event(self):
+        self.comSend(1, self.selectedIndexes()[0].column())
+    
+    def contextMenuEvent(self, event):
+        context_menu = QMenu(self)
+        if self.selectedItems():
+            edit_action = context_menu.addAction("Bearbeiten")
+            edit_action.triggered.connect(self.edit_event)
+            delete_action = context_menu.addAction("Löschen")
             delete_action.triggered.connect(self.delete_event)
         context_menu.exec(event.globalPos())
     
