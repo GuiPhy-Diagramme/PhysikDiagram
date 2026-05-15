@@ -12,6 +12,7 @@ class Controller:
         self.__window = MainWindow(self.comRecieve, self.__widget)
         self.__window.show()
         self.__list = OrderedDict()
+        self.save_path = None
     
     def exec(self):
         self.__app.exec()
@@ -37,13 +38,15 @@ class Controller:
             self.removeFromList(x)
             return self.addToList(*new_vals)
         if action == 3: # Save
-            if args[0] or self.save_file == None:
+            if args[0] or self.save_path == None:
                 return self.save_as()
             else:
                 return self.save()
     
     def save_as():
         dialog
+    
+    def save(): ...
 
     def updateList(self):
         self.__widget.updateList(list(self.__list.keys()), list(self.__list.values()))
