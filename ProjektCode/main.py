@@ -8,7 +8,7 @@ class Controller:
     def __init__(self):
         self.__app = QtWidgets.QApplication([])
         self.__widget = MainWidget(self.comRecieve)
-        self.__window = MainWindow(self.__widget, self.comRecieve)
+        self.__window = MainWindow(self.comRecieve, self.__widget)
         self.__window.show()
         self.__list = OrderedDict()
     

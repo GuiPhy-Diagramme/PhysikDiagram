@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QMainWindow
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, widget = None, comFunc):
+    def __init__(self, comFunc, widget = None):
         self.comSend = comFunc
         super().__init__()
         self.setWindowTitle("PhysikDiagram")
@@ -16,8 +16,8 @@ class MainWindow(QMainWindow):
 
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave),
                             "Save", QKeySequence.StandardKey.Save, self.save)
-        file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave),
-                            "Save as", QKeySequence.StandardKey.Save, self.save_as)
+        file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSaveAs),
+                            "Save as", QKeySequence.StandardKey.SaveAs, self.save_as)
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.ApplicationExit),
                             "Exit", QKeySequence.StandardKey.Quit, self.close)
         #file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DialogInformation),
