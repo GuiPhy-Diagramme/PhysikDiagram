@@ -1,4 +1,4 @@
-from PySide6 import QtWidgets
+from PySide6.QtWidgets import QApplication
 from mainWidget import MainWidget
 from mainWindow import MainWindow
 from collections import OrderedDict
@@ -7,7 +7,7 @@ from dialog import Form
 
 class Controller:
     def __init__(self):
-        self.__app = QtWidgets.QApplication([])
+        self.__app = QApplication([])
         self.__widget = MainWidget(self.comRecieve)
         self.__window = MainWindow(self.comRecieve, self.__widget)
         self.__window.show()
