@@ -28,6 +28,7 @@ class MainWindow(QMainWindow):
         
         edit_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.EditClear),
                             "Leeren", self.empty)
+        edit_menu.addAction("Funktion eingeben", self.math_function)
 
         self.__status = self.statusBar()
         self.__status.showMessage("App läuft")
@@ -50,3 +51,6 @@ class MainWindow(QMainWindow):
     
     def empty(self):
         self.__comSend(6)
+    
+    def math_function(self):
+        self.__comSend(7)

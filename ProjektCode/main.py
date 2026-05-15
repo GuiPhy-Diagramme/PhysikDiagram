@@ -5,6 +5,7 @@ from collections import OrderedDict
 from dialog import Form
 from pathlib import Path
 import json
+from mathFunction import MathFunction
 
 
 class Controller:
@@ -50,6 +51,25 @@ class Controller:
             self.new()
         if action == 6:
             self.empty()
+        if action == 7:
+            self.use_func()
+        
+    def use_func(self):
+        dialog = Form("Function eingeben", inputs=[("-10", "Start"), ("10", "Ende"), ("1", "Schrittweite"), ("", "Funktion")])
+        dialog.exec()
+        if not dialog.result():
+            return
+        try:
+            mfunc = MathFunction(dialog.inputs[3].text())
+            i = float(dialog.inputs[0].text())
+            e = float(dialog.inputs[1].text())
+            s = float(dialog.inputs[2].text())
+        except ValueError:
+            return
+        self.empty()
+        while i <= e:
+            self.addToList(i, mfunc.calc(i))
+            i += s
     
     def save_as(self):
         home = Path.home()
