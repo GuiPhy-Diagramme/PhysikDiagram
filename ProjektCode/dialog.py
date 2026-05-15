@@ -25,15 +25,4 @@ class Form(QDialog):
         layout.addWidget(buttonWidget)
         self.buttons[0].clicked.connect(self.accept)
         self.buttons[-1].clicked.connect(self.reject)
-
-if __name__ == '__main__':
-    from PySide6.QtWidgets import QApplication
-    app = QApplication()
-    form = Form("foo", [("", "a"), ("", ""), ("c", "")])
-    form.exec()
-    if not form.result():
-        print("Rejected")
-        quit()
-    for line_edit in form.inputs:
-        print(line_edit.text())
     
