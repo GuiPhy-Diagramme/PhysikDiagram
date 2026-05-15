@@ -49,7 +49,7 @@ class Controller:
         if action == 5:
             self.new()
         if action == 6:
-            self.setList(dict())
+            self.empty()
     
     def save_as(self):
         home = Path.home()
@@ -68,6 +68,9 @@ class Controller:
     def new(self):
         self.set_save_path(None)
         self.empty()
+    
+    def empty(self):
+        self.setList(dict())
     
     def load(self):
         home = Path.home()
