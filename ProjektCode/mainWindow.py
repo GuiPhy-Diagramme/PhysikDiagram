@@ -22,10 +22,7 @@ class MainWindow(QMainWindow):
                             "Speichern als", QKeySequence.StandardKey.SaveAs, self.save_as)
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.ApplicationExit),
                             "Beenden", QKeySequence.StandardKey.Quit, self.close)
-        #file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DialogInformation),
-        #                    "Info", QKeySequence.StandardKey.Print, self.info)
 
-        # Status Bar
         self.__status = self.statusBar()
         self.__status.showMessage("App läuft")
         QTimer.singleShot(1, self.__setSize)
@@ -41,6 +38,3 @@ class MainWindow(QMainWindow):
 
     def save(self):
         self.__comSend(3, 0)
-
-    def info(self):
-        print(self.screen().orientation())
