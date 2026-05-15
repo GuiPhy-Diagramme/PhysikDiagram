@@ -12,20 +12,20 @@ class MainWindow(QMainWindow):
             self.setCentralWidget(widget)
         # Menu
         self.__menu = self.menuBar()
-        file_menu = self.__menu.addMenu("File")
+        file_menu = self.__menu.addMenu("Datei")
 
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave),
-                            "Save", QKeySequence.StandardKey.Save, self.save)
+                            "Speichern", QKeySequence.StandardKey.Save, self.save)
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSaveAs),
-                            "Save as", QKeySequence.StandardKey.SaveAs, self.save_as)
+                            "Speichern als", QKeySequence.StandardKey.SaveAs, self.save_as)
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.ApplicationExit),
-                            "Exit", QKeySequence.StandardKey.Quit, self.close)
+                            "Beenden", QKeySequence.StandardKey.Quit, self.close)
         #file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DialogInformation),
         #                    "Info", QKeySequence.StandardKey.Print, self.info)
 
         # Status Bar
         self.__status = self.statusBar()
-        self.__status.showMessage("App Running")
+        self.__status.showMessage("App läuft")
         QTimer.singleShot(1, self.__setSize)
 
     def __setSize(self):

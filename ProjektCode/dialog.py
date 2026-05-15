@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QDialog, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, QLabel, QWidget
 class Form(QDialog):
-    def __init__(self, question, inputs = [("", "")], buttons = ["OK", "Cancel"], parent=None):
+    def __init__(self, question, inputs = [("", "")], buttons = ["OK", "Abbrechen"], parent=None):
         super(Form, self).__init__(parent)
         layout = QVBoxLayout()
         self.setLayout(layout)
