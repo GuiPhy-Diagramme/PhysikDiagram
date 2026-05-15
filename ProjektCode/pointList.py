@@ -6,19 +6,19 @@ from time import sleep
 
 
 class ValList(QListWidget):
-    def __init__(self, comSend, x_or_y: bool, *args, **kwargs):
+    def __init__(self, comFunc, x_or_y: bool, *args, **kwargs):
         super().__init__( *args, **kwargs)
         self.__other_list: ValList = None
-        self.comSend = comSend
+        self.__comSend = comFunc
         self.__x_or_y = x_or_y
 
     @Slot()
     def edit_event(self):
-        self.comSend(2, self.selectedIndexes()[0].column())
+        self.__comSend(2, self.selectedIndexes()[0].column())
 
     @Slot()
     def delete_event(self):
-        self.comSend(1, self.selectedIndexes()[0].column())
+        self.__comSend(1, self.selectedIndexes()[0].column())
     
     def contextMenuEvent(self, event):
         context_menu = QMenu(self)
@@ -52,7 +52,7 @@ class LineInput(QLineEdit):
 class PointList(QWidget):
     def __init__(self, comFunc, *args, **kargs):
         super().__init__(*args, *kargs)
-        self.comSend = comFunc
+        self.__comSend = comFunc
         self.__btn = QPushButton('Werte hinzufügen')
         self.__btn.clicked.connect(self.__onButtonClick)
         self.__textX = LineInput(placeholderText='X Wert')
@@ -85,7 +85,7 @@ class PointList(QWidget):
         valY: float = self._stripVal(self.__textY.text())
         if None in (valX, valY):
             return
-        self.comSend(0, valX, valY)
+        self.__comSend(0, valX, valY)
 
     def setList(self, x, y):
         for list_widget, elements in ((self.__listX, x), (self.__listY, y)):

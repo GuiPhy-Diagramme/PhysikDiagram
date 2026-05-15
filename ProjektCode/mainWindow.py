@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QMainWindow
 
 class MainWindow(QMainWindow):
     def __init__(self, comFunc, widget = None):
-        self.comSend = comFunc
+        self.__comSend = comFunc
         super().__init__()
         self.setWindowTitle("PhysikDiagram")
         if widget:
@@ -32,12 +32,15 @@ class MainWindow(QMainWindow):
 
     def __setSize(self):
         self.resize(self.sizeHint())
+    
+    def load(self):
+        self.__comSend(4)
 
     def save_as(self):
-        self.comSend(3, 1)
+        self.__comSend(3, 1)
 
     def save(self):
-        self.comSend(3, 0)
+        self.__comSend(3, 0)
 
     def info(self):
         print(self.screen().orientation())
