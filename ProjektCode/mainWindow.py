@@ -7,7 +7,7 @@ class MainWindow(QMainWindow):
     def __init__(self, comFunc, widget = None):
         self.__comSend = comFunc
         super().__init__()
-        self.setWindowTitle("PhysikDiagram")
+        self.setWindowTitle("PhysikDiagramm")
         if widget:
             self.setCentralWidget(widget)
         # Menu

@@ -100,7 +100,10 @@ class Controller:
     
     def set_save_path(self, new_path):
         self.__save_path = new_path
-        self.__window.setWindowTitle("PhysikDiagram — " + new_path)
+        title = "PhysikDiagramm"
+        if new_path != None:
+            title += " — " + new_path
+        self.__window.setWindowTitle(title)
 
 
 if __name__ == "__main__":
