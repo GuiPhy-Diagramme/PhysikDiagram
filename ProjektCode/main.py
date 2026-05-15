@@ -46,6 +46,10 @@ class Controller:
                 return self.save()
         if action == 4: # Load
             self.load()
+        if action == 5:
+            self.new()
+        if action == 6:
+            self.setList(dict())
     
     def save_as(self):
         home = Path.home()
@@ -60,6 +64,10 @@ class Controller:
         with open(self.__save_path, 'w') as f:
             f.write(save_json)
         self.set_save_path(self.__save_path)
+    
+    def new(self):
+        self.set_save_path(None)
+        self.empty()
     
     def load(self):
         home = Path.home()

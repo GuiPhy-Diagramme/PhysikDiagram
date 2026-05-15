@@ -13,7 +13,10 @@ class MainWindow(QMainWindow):
         # Menu
         self.__menu = self.menuBar()
         file_menu = self.__menu.addMenu("Datei")
+        edit_menu = self.__menu.addMenu("Bearbeiten")
 
+        file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DocumentNew),
+                            "Neu", QKeySequence.StandardKey.New, self.new)
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DocumentOpen),
                             "Öffnen", QKeySequence.StandardKey.Open, self.load)
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave),
@@ -22,6 +25,9 @@ class MainWindow(QMainWindow):
                             "Speichern als", QKeySequence.StandardKey.SaveAs, self.save_as)
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.ApplicationExit),
                             "Beenden", QKeySequence.StandardKey.Quit, self.close)
+        
+        edit_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.EditClear),
+                            "Leeren", self.empty)
 
         self.__status = self.statusBar()
         self.__status.showMessage("App läuft")
@@ -29,6 +35,9 @@ class MainWindow(QMainWindow):
 
     def __setSize(self):
         self.resize(self.sizeHint())
+    
+    def new(self):
+        self.__comSend(5)
     
     def load(self):
         self.__comSend(4)
@@ -38,3 +47,6 @@ class MainWindow(QMainWindow):
 
     def save(self):
         self.__comSend(3, 0)
+    
+    def empty(self):
+        self.__comSend(6)
