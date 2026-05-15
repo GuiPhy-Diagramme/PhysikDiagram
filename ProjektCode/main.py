@@ -14,7 +14,7 @@ class Controller:
         self.__window = MainWindow(self.comRecieve, self.__widget)
         self.__window.show()
         self.__list = OrderedDict()
-        self.save_path = None
+        self.__save_path = None
     
     def exec(self):
         self.__app.exec()
@@ -51,20 +51,36 @@ class Controller:
         home = Path.home()
         fileName = QFileDialog.getSaveFileName(self.__window, "Datei Speichern als", str(home), "*.pdia")
         file_str = fileName[0].removesuffix(".pdia") + ".pdia"
-        self.save_path = file_str
         return self.save()
     
     def save(self):
-        if self.save_path == None:
+        if self.__save_path == None:
             return save_as()
         save_json = json.dumps(self.__list)
-        with open(self.save_path, 'w') as f:
+        with open(self.__save_path, 'w') as f:
             f.write(save_json)
+        self.set_save_path(self.__save_path)
     
-    def load(self): ...
+    def load(self):
+        home = Path.home()
+        fileName = QFileDialog.getOpenFileName(self.__window, "Datei Öffnen", str(home), "*.pdia")
+        with open(fileName[0], 'r') as f:
+            load_json_str = f.read()
+        load_json = json.loads(load_json_str)
+        new_dict = dict()
+        for item in load_json.items():
+            try:
+                new_dict[float(item[0])] = float(item[1])
+            except ValueError:
+                pass
+        self.setList(new_dict)
+        self.set_save_path(fileName[0])
 
     def updateList(self):
         self.__widget.updateList(list(self.__list.keys()), list(self.__list.values()))
+        windowTitle = self.__window.windowTitle()
+        if windowTitle[-2:] != " *":
+            self.__window.setWindowTitle(windowTitle + " *")
 
     def setList(self, x, y = None):
         if y is not None:
@@ -81,6 +97,10 @@ class Controller:
         out = x, self.__list.pop(x)
         self.updateList()
         return out
+    
+    def set_save_path(self, new_path):
+        self.__save_path = new_path
+        self.__window.setWindowTitle("PhysikDiagram — " + new_path)
 
 
 if __name__ == "__main__":
