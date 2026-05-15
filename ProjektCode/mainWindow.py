@@ -14,6 +14,8 @@ class MainWindow(QMainWindow):
         self.__menu = self.menuBar()
         file_menu = self.__menu.addMenu("Datei")
 
+        file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DocumentOpen),
+                            "Öffnen", QKeySequence.StandardKey.Open, self.load)
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave),
                             "Speichern", QKeySequence.StandardKey.Save, self.save)
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSaveAs),
