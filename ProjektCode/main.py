@@ -73,7 +73,7 @@ class Controller:
     
     def save_as(self):
         home = Path.home()
-        fileName = QFileDialog.getSaveFileName(self.__window, "Datei Speichern als", str(home), "*.pdia")
+        fileName = QFileDialog.getSaveFileName(self.__window, "PhysikDiagramm — Datei Speichern als", str(home), "*.pdia")
         file_str = fileName[0].removesuffix(".pdia") + ".pdia"
         return self.save()
     

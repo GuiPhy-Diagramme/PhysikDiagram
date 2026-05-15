@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QDialog, QLineEdit, QPushButton, QHBoxLayout, QVBo
 class Form(QDialog):
     def __init__(self, question, inputs = [("", "")], buttons = ["OK", "Abbrechen"], parent=None):
         super(Form, self).__init__(parent)
+        self.setWindowTitle("PhysikDiagramm Dialog")
         layout = QVBoxLayout()
         self.setLayout(layout)
 
