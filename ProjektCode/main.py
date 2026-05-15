@@ -2,6 +2,7 @@ from PySide6 import QtWidgets
 from mainWidget import MainWidget
 from mainWindow import MainWindow
 from collections import OrderedDict
+from dialog import Form
 
 
 class Controller:
@@ -24,18 +25,19 @@ class Controller:
             x = list(self.__list.keys())[args[0]]
             return self.removeFromList(x)
         if action == 2: # 2: Edit Item
-            print("Edit Item", args)
-            x = list(self.__list.keys())[args[1]]
-            old = self.removeFromList(x)
+            x = list(self.__list.keys())[args[0]]
+            old = x, self.__list[x]
+            dialog = Form("Neue Werte eingeben", [(str(old[0]), "x"), (str(old[1]), "y")])
+            dialog.exec()
+            if not dialog.result():
+                return
+            new_vals_str = dialog.inputs[0].text(), dialog.inputs[1].text()
             try:
-                new_val = float(args[2])
+                new_vals = float(new_vals_str[0]), float(new_vals_str[1])
             except ValueError:
                 return
-            if args[0]:
-                new_item = new_val, old[1]
-            else:
-                new_item = x, new_val
-            return self.addToList(*new_item)
+            self.removeFromList(x)
+            return self.addToList(*new_vals)
         if action == 3: # Save
             print("Save File")
             pass

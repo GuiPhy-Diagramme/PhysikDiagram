@@ -1,51 +1,9 @@
-from PySide6.QtWidgets import QPushButton, QLineEdit, QWidget, QListWidget, QGridLayout, QVBoxLayout, QMenu, QDialog
+from PySide6.QtWidgets import QPushButton, QLineEdit, QWidget, QListWidget, QGridLayout, QMenu
 from PySide6.QtCore import Slot, Qt
 from PySide6.QtGui import QMouseEvent, QKeyEvent
 from functools import partial
 from time import sleep
 
-
-class Form(QDialog):
-
-    def __init__(self, value="", parent=None):
-        super(Form, self).__init__(parent)
-        self.edit = QLineEdit(value)
-        self.button = QPushButton("OK")
-        layout = QVBoxLayout()
-        layout.addWidget(self.edit)
-        layout.addWidget(self.button)
-        self.setLayout(layout)
-        self.button.clicked.connect(self.close)
-
-
-@Slot()
-def edit_dialog(value):
-    form = Form(value)
-    form.setFixedSize(form.sizeHint())
-    form.exec()
-    return form.edit.text()
-
-
-class ValList(QListWidget):
-    def __init__(self, comSend, x_or_y: bool, *args, **kwargs):
-        super().__init__( *args, **kwargs)
-        self.__other_list: ValList = None
-        self.comSend = comSend
-        self.__x_or_y = x_or_y
-
-    def edit_event(self):
-        newVal = edit_dialog(self.selectedItems()[0].text())
-        self.comSend(2, self.__x_or_y, self.selectedIndexes()[0].column(), newVal)
-
-    def delete_event(self):
-        self.comSend(1, self.selectedIndexes()[0].column())
-    
-    def contextMenuEvent(self, event):
-        context_menu = QMenu(self)
-        if self.selectedItems():
-            edit_action = context_menu.addAction("Bearbeiten")
-            edit_action.triggered.connect(self.edit_event)
-            delete_action = context_menu.addAction("Löschen")
             delete_action.triggered.connect(self.delete_event)
         context_menu.exec(event.globalPos())
     
