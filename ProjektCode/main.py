@@ -68,8 +68,9 @@ class Controller:
             return
         self.empty()
         while i <= e:
-            self.addToList(i, mfunc.calc(i))
-            i = round(i + s, 8)
+            i = round(i, 8)
+            self.addToList(i, round(mfunc.calc(i), 8))
+            i += s
     
     def save_as(self):
         home = Path.home()
