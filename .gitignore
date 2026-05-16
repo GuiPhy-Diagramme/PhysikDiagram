@@ -1,8 +1,4 @@
-UML/*
-shell.nix
-run.sh
-.vscode/settings.json
-ProjektCode/__pycache__/
-.vscode/launch.json
+.vscode/
+__pycache__/
 test.pdia
-ProjektCode/libs
+libs/
