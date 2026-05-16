@@ -1,0 +1,5 @@
+numpy
+scipy
+sympy
+pyqtgraph
+PySide6
