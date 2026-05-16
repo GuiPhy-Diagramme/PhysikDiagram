@@ -5,3 +5,4 @@ run.sh
 ProjektCode/__pycache__/
 .vscode/launch.json
 test.pdia
+ProjektCode/libs
