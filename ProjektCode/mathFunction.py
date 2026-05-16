@@ -1,4 +1,5 @@
-from sympy import lambdify, symbols, pi, E, oo, GoldenRatio, sin, cos, sqrt, log
+from sympy import lambdify, symbols, pi, E, oo, GoldenRatio, sqrt, log, sin, cos, tan, asin, acos, atan, Abs
+from sympy import __dict__ as sympy_dict
 from sympy.parsing.sympy_parser import (
     parse_expr,
     standard_transformations,
@@ -21,8 +22,13 @@ allowed = {
     "phi": GoldenRatio,
     "sin": sin,
     "cos": cos,
+    "tan": tan,
+    "asin": asin,
+    "acos": acos,
+    "atan": atan,
     "sqrt": sqrt,
-    "log": log
+    "log": log,
+    "abs": Abs,
 }
 
 class MathFunction:
@@ -56,7 +62,7 @@ class MathFunction:
             expr,
             transformations=transformations,
             local_dict=allowed,
-            global_dict={}
+            global_dict=sympy_dict
         )
         self.__function = lambdify(x, expr)
     
