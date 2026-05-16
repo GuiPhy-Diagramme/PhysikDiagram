@@ -243,6 +243,8 @@ class Controller:
         self.updateList()
     
     def addToList(self, x, y):
+        if x != x or y != y:
+            return
         self.__list[x] = y
         self.__list = OrderedDict(sorted(self.__list.items()))
         self.updateList()
