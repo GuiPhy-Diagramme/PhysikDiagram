@@ -11,6 +11,15 @@ class ValList(QListWidget):
         self.__other_list: ValList = None
         self.__comSend = comFunc
         self.__x_or_y = x_or_y
+    
+    def set_other_list(self, other):
+        self.__other_list = other
+        self.verticalScrollBar().valueChanged.connect(
+            other.verticalScrollBar().setValue
+        )
+        self.currentRowChanged.connect(
+            other.setCurrentRow
+        )
 
     @Slot()
     def edit_event(self):
@@ -28,13 +37,6 @@ class ValList(QListWidget):
             delete_action = context_menu.addAction("Löschen")
             delete_action.triggered.connect(self.delete_event)
         context_menu.exec(event.globalPos())
-    
-    def mousePressEvent(self, event: QMouseEvent):
-        if self.__other_list == None:
-            return super().mousePressEvent(event)
-        self.__other_list.clearSelection()
-        return super().mousePressEvent(event)
-
 
 class LineInput(QLineEdit):
     def __init__(self, *args, **kwargs):
@@ -61,8 +63,8 @@ class PointList(QWidget):
         self.__textY.on_enter = self.__onButtonClick
         self.__listX = ValList(comFunc, True)
         self.__listY = ValList(comFunc, False)
-        self.__listX.__other_list = self.__listY
-        self.__listY.__other_list = self.__listX
+        self.__listX.set_other_list(self.__listY)
+        self.__listY.set_other_list(self.__listX)
         layout = QGridLayout()
         self.setLayout(layout)
         layout.addWidget(self.__textX,   0, 0, 1, 1)
