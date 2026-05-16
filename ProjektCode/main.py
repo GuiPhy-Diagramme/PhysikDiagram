@@ -53,9 +53,11 @@ class Controller:
             self.empty()
         if action == 7:
             self.use_func()
+        if action == 8:
+            self.differentiate()
         
     def use_func(self):
-        dialog = Form("Function eingeben", inputs=[("-10", "Start"), ("10", "Ende"), ("1", "Schrittweite"), ("", "Funktion")])
+        dialog = Form("Function eingeben", inputs=[("-10", "Start"), ("10", "Ende"), ("0.2", "Schrittweite"), ("", "Funktion")])
         dialog.exec()
         if not dialog.result():
             return
@@ -71,7 +73,36 @@ class Controller:
             i = round(i, 8)
             self.addToList(i, round(mfunc.calc(i), 8))
             i += s
-    
+            
+    def differentiate(self):
+        new_dict = {}
+        x = list(self.__list.keys())
+        y = list(self.__list.values())
+        n = len(x)
+        if n < 3:
+            return
+        # Anfang (Vorwärtsdifferenz 2. Ordnung)
+        new_dict[x[0]] = (
+            -3*y[0] + 4*y[1] - y[2]
+        ) / (
+            x[2] - x[0]
+        )
+        # Mitte (zentrale Differenz)
+        for i in range(1, n - 1):
+
+            new_dict[x[i]] = (
+                y[i+1] - y[i-1]
+            ) / (
+                x[i+1] - x[i-1]
+            )
+        # Ende (Rückwärtsdifferenz 2. Ordnung)
+        new_dict[x[-1]] = (
+            3*y[-1] - 4*y[-2] + y[-3]
+        ) / (
+            x[-1] - x[-3]
+        )
+        self.setList(new_dict)
+
     def save_as(self):
         home = Path.home()
         fileName = QFileDialog.getSaveFileName(self.__window, "PhysikDiagramm — Datei Speichern als", str(home), "*.pdia")

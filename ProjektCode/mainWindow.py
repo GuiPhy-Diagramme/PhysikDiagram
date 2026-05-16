@@ -29,6 +29,7 @@ class MainWindow(QMainWindow):
         edit_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.EditClear),
                             "Leeren", self.empty)
         edit_menu.addAction("Funktion eingeben", self.math_function)
+        edit_menu.addAction("Ableiten", self.differentiate)
 
         self.__status = self.statusBar()
         self.__status.showMessage("App läuft")
@@ -54,3 +55,6 @@ class MainWindow(QMainWindow):
     
     def math_function(self):
         self.__comSend(7)
+    
+    def differentiate(self):
+        self.__comSend(8)
