@@ -246,6 +246,9 @@ class Controller:
     def addToList(self, x, y):
         if x != x or y != y:
             return
+        MAXVAL = 10_000
+        if x > MAXVAL or x < -MAXVAL or y > MAXVAL or y < -MAXVAL:
+            return
         self.__list[x] = y
         self.__list = OrderedDict(sorted(self.__list.items()))
         self.updateList()
