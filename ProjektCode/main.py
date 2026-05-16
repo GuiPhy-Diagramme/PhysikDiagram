@@ -57,7 +57,7 @@ class Controller:
             self.differentiate()
         
     def use_func(self):
-        dialog = Form("Function eingeben", inputs=[("-10", "Start"), ("10", "Ende"), ("0.2", "Schrittweite"), ("", "Funktion")])
+        dialog = Form("Funktion eingeben", inputs=[("-10", "Start"), ("10", "Ende"), ("0.2", "Schrittweite"), ("", "Funktion")])
         dialog.exec()
         if not dialog.result():
             return
