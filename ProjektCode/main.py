@@ -55,6 +55,8 @@ class Controller:
             self.use_func()
         if action == 8:
             self.differentiate()
+        if action == 9:
+            self.integrate()
         
     def use_func(self):
         dialog = Form("Funktion eingeben", inputs=[("-10", "Start"), ("10", "Ende"), ("0.2", "Schrittweite"), ("", "Funktion")])
@@ -73,7 +75,7 @@ class Controller:
             i = round(i, 8)
             self.addToList(i, round(mfunc.calc(i), 8))
             i += s
-            
+
     def differentiate(self):
         new_dict = {}
         x = list(self.__list.keys())
@@ -101,6 +103,25 @@ class Controller:
         ) / (
             x[-1] - x[-3]
         )
+        self.setList(new_dict)
+    
+    def integrate(self):
+        new_dict = {}
+        x = list(self.__list.keys())
+        y = list(self.__list.values())
+        n = len(x)
+        if n == 0:
+            return
+        integral = 0
+        new_dict[x[0]] = 0
+        for i in range(1, n):
+            area = (
+                (y[i-1] + y[i]) / 2
+            ) * (
+                x[i] - x[i-1]
+            )
+            integral += area
+            new_dict[x[i]] = integral
         self.setList(new_dict)
 
     def save_as(self):

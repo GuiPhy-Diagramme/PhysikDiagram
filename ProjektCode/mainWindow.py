@@ -30,6 +30,7 @@ class MainWindow(QMainWindow):
                             "Leeren", self.empty)
         edit_menu.addAction("Funktion eingeben", self.math_function)
         edit_menu.addAction("Ableiten", self.differentiate)
+        edit_menu.addAction("Integrieren", self.integrate)
 
         self.__status = self.statusBar()
         self.__status.showMessage("App läuft")
@@ -58,3 +59,6 @@ class MainWindow(QMainWindow):
     
     def differentiate(self):
         self.__comSend(8)
+    
+    def integrate(self):
+        self.__comSend(9)
