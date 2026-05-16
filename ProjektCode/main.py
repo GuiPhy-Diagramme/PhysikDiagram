@@ -6,7 +6,8 @@ from dialog import Form
 from pathlib import Path
 import json
 from mathFunction import MathFunction
-
+from scipy.interpolate import CubicSpline
+import numpy as np
 
 class Controller:
     def __init__(self):
@@ -57,6 +58,12 @@ class Controller:
             self.differentiate()
         if action == 9:
             self.integrate()
+        if action == 10:
+            self.move()
+        if action == 11:
+            self.stretch()
+        if action == 12:
+            self.scale()
         
     def use_func(self):
         dialog = Form("Funktion eingeben", inputs=[("-10", "Start"), ("10", "Ende"), ("0.2", "Schrittweite"), ("", "Funktion")])
@@ -123,6 +130,64 @@ class Controller:
             integral += area
             new_dict[x[i]] = integral
         self.setList(new_dict)
+
+    def move(self):
+        dialog = Form("Verschiebung", [("", "x-Achse"), ("", "y-Achse")])
+        dialog.exec()
+        if not dialog.result():
+            return
+        try:
+            if dialog.inputs[0].text() == "":
+                x = 0
+            else:
+                x = float(dialog.inputs[0].text())
+            if dialog.inputs[1].text() == "":
+                y = 0
+            else:
+                y = float(dialog.inputs[1].text())
+        except ValueError:
+            return
+        new_dict = {}
+        for item in self.__list.items():
+            new_dict[item[0] + x] = item[1] + y
+        self.setList(new_dict)
+    
+    def stretch(self):
+        dialog = Form("Streckung/Stauchung", [("", "x-Achse"), ("", "y-Achse")])
+        dialog.exec()
+        if not dialog.result():
+            return
+        try:
+            if dialog.inputs[0].text() == "":
+                x = 1
+            else:
+                x = float(dialog.inputs[0].text())
+            if dialog.inputs[1].text() == "":
+                y = 1
+            else:
+                y = float(dialog.inputs[1].text())
+        except ValueError:
+            return
+        new_dict = {}
+        for item in self.__list.items():
+            new_dict[item[0] * x] = item[1] * y
+        self.setList(new_dict)
+    
+    def scale(self):
+        dialog = Form("Wie viele Punkte sollen gezeigt werden?", [("", "n")])
+        dialog.exec()
+        if not dialog.result():
+            return
+        try:
+            samples = int(dialog.inputs[0].text())
+        except ValueError:
+            return
+        x = np.array(list(self.__list.keys()))
+        y = np.array(list(self.__list.values()))
+        spline = CubicSpline(x, y)
+        new_x = np.linspace(x.min(), x.max(), samples)
+        new_y = spline(new_x)
+        self.setList(dict(zip(new_x, new_y)))
 
     def save_as(self):
         home = Path.home()

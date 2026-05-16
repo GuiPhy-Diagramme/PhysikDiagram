@@ -31,6 +31,9 @@ class MainWindow(QMainWindow):
         edit_menu.addAction("Funktion eingeben", self.math_function)
         edit_menu.addAction("Ableiten", self.differentiate)
         edit_menu.addAction("Integrieren", self.integrate)
+        edit_menu.addAction("Verschieben", self.move)
+        edit_menu.addAction("Strecken/Stauchen", self.stretch)
+        edit_menu.addAction("Auflösung verändern", self.scale)
 
         self.__status = self.statusBar()
         self.__status.showMessage("App läuft")
@@ -62,3 +65,12 @@ class MainWindow(QMainWindow):
     
     def integrate(self):
         self.__comSend(9)
+    
+    def move(self):
+        self.__comSend(10)
+    
+    def stretch(self):
+        self.__comSend(11)
+    
+    def scale(self):
+        self.__comSend(12)
