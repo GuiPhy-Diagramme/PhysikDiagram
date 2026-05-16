@@ -1,3 +1,8 @@
+import sys
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+LIBS_DIR = os.path.join(BASE_DIR, "libs")
+sys.path.insert(0, LIBS_DIR)
 from sympy import lambdify, symbols, pi, E, oo, GoldenRatio, sqrt, log, sin, cos, tan, asin, acos, atan, Abs
 from sympy import __dict__ as sympy_dict
 from sympy.parsing.sympy_parser import (

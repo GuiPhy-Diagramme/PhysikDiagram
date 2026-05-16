@@ -1,3 +1,8 @@
+import sys
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+LIBS_DIR = os.path.join(BASE_DIR, "libs")
+sys.path.insert(0, LIBS_DIR)
 from PySide6.QtWidgets import QDialog, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, QLabel, QWidget
 class Form(QDialog):
     def __init__(self, question, inputs = [("", "")], buttons = ["OK", "Abbrechen"], parent=None):
