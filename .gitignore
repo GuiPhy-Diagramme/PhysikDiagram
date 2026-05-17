@@ -1,6 +1,6 @@
 .vscode/
 __pycache__/
-test.pdia
+testfiles/
 libs/
 aistuff.py.bak
 outputs/
