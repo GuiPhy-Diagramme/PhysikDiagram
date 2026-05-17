@@ -203,7 +203,7 @@ class Controller:
     
     def save(self):
         if self.__save_path == None:
-            return save_as()
+            return self.save_as()
         save_json = json.dumps(self.__list)
         with open(self.__save_path, 'w') as f:
             f.write(save_json)
