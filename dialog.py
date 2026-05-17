@@ -33,5 +33,16 @@ class Form(QDialog):
         buttonWidget.setLayout(buttonsLayout)
         layout.addWidget(buttonWidget)
         self.buttons[0].clicked.connect(self.accept)
-        self.buttons[-1].clicked.connect(self.reject)        
-    
+        self.buttons[-1].clicked.connect(self.reject)
+
+class InfoScreen(QDialog):
+    def __init__(self, text, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setWindowTitle("Hilfe")
+        layout = QVBoxLayout(self)
+        self.setLayout(layout)
+        self.__text = QLabel(text)
+        layout.addWidget(self.__text)
+        self.__button = QPushButton("OK")
+        layout.addWidget(self.__button)
+        self.__button.clicked.connect(self.accept)
