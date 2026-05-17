@@ -31,3 +31,6 @@ class Diagram(PlotWidget):
     def setList(self, x, y):
         self.clear()
         self.draw(x, y)
+    
+    def get_plot_item(self):
+        return self.plotItem

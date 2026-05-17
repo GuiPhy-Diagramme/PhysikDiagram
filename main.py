@@ -15,12 +15,13 @@ from mathFunction import MathFunction
 from scipy.interpolate import CubicSpline
 import numpy as np
 import csv
+from pyqtgraph.exporters import ImageExporter, PrintExporter
 
 class Controller:
     def __init__(self):
         self.exporters = (
             #(lambda x: None, "SVG", "(*.svg)", (".svg",)),
-            #(lambda x: None, "PNG", "(*.png)", (".png",)),
+            (self.export_png, "PNG", "(*.png)", (".png",)),
             #(lambda x: None, "JPG", "(*.jpg, *.jpeg)", (".jpg", "jpeg")),
             #(lambda x: None, "PDF", "(*.pdf)", (".pdf",)),
             (self.export_csv, "CSV", "(*.csv)", (".csv",)), 
@@ -287,7 +288,11 @@ class Controller:
             filename.removesuffix(suffix)
         filename += exporter_attrs[3][0]
         exporter_attrs[0](filename)
-
+    
+    def export_png(self, filename):
+        exporter = ImageExporter(self.__widget.get_plot().get_plot_item())
+        exporter.parameters()['width'] = 2000
+        exporter.export(filename)
     
     def export_csv(self, filename):
         with open(filename, "w", newline="") as f:

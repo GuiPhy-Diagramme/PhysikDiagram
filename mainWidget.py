@@ -24,3 +24,6 @@ class MainWidget(QWidget):
     def updateList(self, x, y):
         self.__plot.setList(x, y)
         self.__listWidget.setList(x, y)
+    
+    def get_plot(self):
+        return self.__plot
