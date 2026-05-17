@@ -14,12 +14,20 @@ import json
 from mathFunction import MathFunction
 from scipy.interpolate import CubicSpline
 import numpy as np
+import csv
 
 class Controller:
     def __init__(self):
+        self.exporters = (
+            #(lambda x: None, "SVG", "(*.svg)", (".svg",)),
+            #(lambda x: None, "PNG", "(*.png)", (".png",)),
+            #(lambda x: None, "JPG", "(*.jpg, *.jpeg)", (".jpg", "jpeg")),
+            #(lambda x: None, "PDF", "(*.pdf)", (".pdf",)),
+            (self.export_csv, "CSV", "(*.csv)", (".csv",)), 
+        )
         self.__app = QApplication([])
         self.__widget = MainWidget(self.comRecieve)
-        self.__window = MainWindow(self.comRecieve, self.__widget)
+        self.__window = MainWindow(self.comRecieve, self.__widget, list(map(lambda x: x[1], self.exporters)))
         self.__window.show()
         self.__list = OrderedDict()
         self.__save_path = None
@@ -70,6 +78,8 @@ class Controller:
             self.stretch()
         if action == 12:
             self.scale()
+        if action == 13:
+            self.export(args[0])
         
     def use_func(self):
         dialog = Form("Funktion eingeben", inputs=[("-10", "Start"), ("10", "Ende"), ("0.2", "Schrittweite"), ("", "Funktion")])
@@ -264,6 +274,27 @@ class Controller:
         if new_path != None:
             title += " — " + new_path
         self.__window.setWindowTitle(title)
+    
+    def export(self, index):
+        exporter_attrs = self.exporters[index]
+        filename, _ = QFileDialog.getSaveFileName(
+            None,
+            "Als " + exporter_attrs[1] + " exportieren",
+            "",
+            exporter_attrs[1] + " Dateien " + exporter_attrs[2]
+        )
+        for suffix in exporter_attrs[3]:
+            filename.removesuffix(suffix)
+        filename += exporter_attrs[3][0]
+        exporter_attrs[0](filename)
+
+    
+    def export_csv(self, filename):
+        with open(filename, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(["x", "y"])
+            for x, y in self.__list.items():
+                writer.writerow([x, y])
 
 
 if __name__ == "__main__":

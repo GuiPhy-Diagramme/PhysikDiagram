@@ -5,11 +5,11 @@ LIBS_DIR = os.path.join(BASE_DIR, "libs")
 sys.path.insert(0, LIBS_DIR)
 from PySide6.QtCore import QTimer
 from PySide6.QtGui import QIcon, QKeySequence
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtWidgets import QMainWindow, QMenu
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, comFunc, widget = None):
+    def __init__(self, comFunc, widget = None, exporters=()):
         self.__comSend = comFunc
         super().__init__()
         self.setWindowTitle("PhysikDiagramm")
@@ -28,6 +28,10 @@ class MainWindow(QMainWindow):
                             "Speichern", QKeySequence.StandardKey.Save, self.save)
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSaveAs),
                             "Speichern als", QKeySequence.StandardKey.SaveAs, self.save_as)
+        if exporters:
+            export_menu = file_menu.addMenu("Exportieren als")
+            for i, exporter in enumerate(exporters):
+                export_menu.addAction("Als " + exporter + " exportieren", lambda checker=False, i=i: self.export(i))
         file_menu.addAction(QIcon.fromTheme(QIcon.ThemeIcon.ApplicationExit),
                             "Beenden", QKeySequence.StandardKey.Quit, self.close)
         
@@ -79,3 +83,6 @@ class MainWindow(QMainWindow):
     
     def scale(self):
         self.__comSend(12)
+    
+    def export(self, index):
+        self.__comSend(13, index)
