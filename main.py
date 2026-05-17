@@ -285,7 +285,7 @@ class Controller:
             exporter_attrs[1] + " Dateien " + exporter_attrs[2]
         )
         for suffix in exporter_attrs[3]:
-            filename.removesuffix(suffix)
+            filename = filename.removesuffix(suffix)
         filename += exporter_attrs[3][0]
         exporter_attrs[0](filename)
     
