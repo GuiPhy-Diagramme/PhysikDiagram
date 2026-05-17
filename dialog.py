@@ -22,13 +22,15 @@ class Form(QDialog):
         inputWidget.setLayout(inputLayout)
         layout.addWidget(inputWidget)
 
+        self.clicked_buttons = []
         buttonsLayout = QHBoxLayout()
         self.buttons = [QPushButton(val) for val in buttons]
         for button in self.buttons:
             buttonsLayout.addWidget(button)
+            button.clicked.connect(lambda checker=False, b=button: self.clicked_buttons.append(b))
         buttonWidget = QWidget()
         buttonWidget.setLayout(buttonsLayout)
         layout.addWidget(buttonWidget)
         self.buttons[0].clicked.connect(self.accept)
-        self.buttons[-1].clicked.connect(self.reject)
+        self.buttons[-1].clicked.connect(self.reject)        
     

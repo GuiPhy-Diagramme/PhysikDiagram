@@ -291,7 +291,18 @@ class Controller:
     
     def export_png(self, filename):
         exporter = ImageExporter(self.__widget.get_plot().get_plot_item())
-        exporter.parameters()['width'] = 2000
+        dialog = Form("Auflösung", [("1500", "Pixel")], ["Breite", "Höhe", "Abbrechen"])
+        dialog.buttons[1].clicked.connect(dialog.accept)
+        dialog.exec()
+        if not dialog.result():
+            return
+        try:
+            if dialog.clicked_buttons[0].text() == "Breite":
+                exporter.parameters()['width'] = int(dialog.inputs[0].text())
+            else:
+                exporter.parameters()['height'] = int(dialog.inputs[0].text())
+        except ValueError:
+            return
         exporter.export(filename)
     
     def export_csv(self, filename):
