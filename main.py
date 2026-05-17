@@ -8,7 +8,7 @@ from PySide6.QtWidgets import QApplication, QFileDialog
 from mainWidget import MainWidget
 from mainWindow import MainWindow
 from collections import OrderedDict
-from dialog import Form
+from dialog import Form, InfoScreen
 from pathlib import Path
 import json
 from mathFunction import MathFunction
@@ -81,9 +81,21 @@ class Controller:
             self.scale()
         if action == 13:
             self.export(args[0])
-        
+    
+    def help_math(self):
+        dialog = InfoScreen("Geben Sie den Startwert, den Endwert und die Schrittweite, sowie die Mathematische Funktion (Mit x als unbekanntem Wert) an, für die eine Punktmenge errechnet werden soll.\n\
+            Erlaubte Sonderzeichen, Konstanten und Funktionen:\n\
+            \t· ^ (Hochrechnung Basis^Exponent)\n\
+            \t· ⁰, ¹, …, ⁹\n\
+            \t· ¼, ½, ⅛, ⅜, ⅝, ⅞\n\
+            \t· sin, cos, tan, asin, acos, atan\n\
+            \t· log, abs, exp\n\
+            \t· pi, π, E, e")
+        dialog.exec()
+
     def use_func(self):
-        dialog = Form("Funktion eingeben", inputs=[("-10", "Start"), ("10", "Ende"), ("0.2", "Schrittweite"), ("", "Funktion")])
+        dialog = Form("Funktion eingeben", [("-10", "Start"), ("10", "Ende"), ("0.2", "Schrittweite"), ("", "Funktion")], ["OK", "Hilfe", "Abbrechen"])
+        dialog.buttons[1].clicked.connect(self.help_math)
         dialog.exec()
         if not dialog.result():
             return
