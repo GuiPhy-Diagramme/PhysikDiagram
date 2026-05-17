@@ -46,6 +46,7 @@ class MathFunction:
     def set_function(self, expr):
         expr = (
             expr
+            .replace(",", ".")
             .replace("^", "**")
             .replace("¹", "**1")
             .replace("²", "**2")
