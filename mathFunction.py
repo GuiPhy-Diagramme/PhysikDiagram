@@ -20,6 +20,7 @@ transformations = (
 
 allowed = {
     "x": x,
+    "X": x,
     "pi": pi,
     "π": pi,
     "E": E,
